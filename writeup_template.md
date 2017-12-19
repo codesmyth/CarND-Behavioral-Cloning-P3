@@ -50,10 +50,10 @@ The model.py file contains the code for training and saving the convolution neur
 
 I initially got the data processed using a very simple network, then evolved this network to a deep convolutional network based on LeNet. the results were reasonable but the car did  veer of to the side. I adopted a model based on the Nvidia end to end network and observed some more improvements.
 
-I settled in this architecture and gathered more data.
+I settled on the Nvidia end to end architecture and gathered more data.
 
 #### 1. An appropriate model architecture has been employed
-The final model is in a function(nvidia_e2e, codes lines XX)
+The final model is in a function(nvidia_e2e, codes lines 40-58)
 The image data is normalized in the model using a Keras lambda layer
 The images are then cropped to remove the sky and trees at the top and the car base of the image.
 My model consists of a convolution neural network with 3 5x5 filter sizes and depths between 24 and 48, then two further convolutions
@@ -62,15 +62,16 @@ with 3x3 filters. each layer is activated with a RELU operation.
 A drop out layer is then included to reduce overfitting. with a keep probability of 50%
 Then four fully Connected layers are utilsed, the first three are activated with RELU and the last layer provides a single output.
 
-The model is summarised in the final table below.
-
+The model is summarised in the table below in the Final Model Architecture section.
 
 
 #### 2. Attempts to reduce overfitting in the model
 
 The model contains dropout layers in order to reduce overfitting.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+
+I shuffled and sampled 75% of the total data generated.
 
 #### 3. Model parameter tuning
 
@@ -99,6 +100,8 @@ The final step was to run the simulator to see how well the car was driving arou
 I augmented the dataset by making use of the left and right camera angles and by flipping 10% of the total images. for the left and right camera images I included a small correction to steering the car towards the middle when these images were observed.
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+
+I used a generator as I had encountered out of memory issues in some initial trials.
 
 #### 2. Final Model Architecture
 
@@ -153,10 +156,10 @@ To augment the data sat, I also flipped images and angles thinking that this wou
 ![alt text][image7]
 
 
-After the collection process, I had sampled 75%(38,962) of the total  datapoints for each camera. After I augmented the images as described above i 58442 number of data points. I then preprocessed this data by converting the colour from BGR to RGB. up until this point the car did continue to drive of the road, when there were shadows or dirt roads etc. Initially I'd attempted to deal with the car leaving the track by generating more data. which is why I ended up using a lot.
+After the collection process, I had sampled 75%(38,962) of the total datapoints for each camera. After I augmented the images as described above there were 58442 number of data points. I then preprocessed this data by converting the colour from BGR to RGB. up until this point the car did continue to drive of the road, when there were shadows or dirt roads etc. Initially I'd attempted to deal with the car leaving the track by generating more data.
 
 
-I randomly shuffled before the data set when loading so that I could dropout a proportion of the data to and put 20% of the data into a validation set.
+I randomly shuffled the data set when loading so that I could dropout a proportion of the data to and put 20% of the data into a validation set. I aslo shuffled the data inside the generator.
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The number of epochs was 3 as the loss had dropped to 0.0090 and the validation loss dropped to 0.0086.
 
